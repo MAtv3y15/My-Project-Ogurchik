@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 public class UnitAnimation : MonoBehaviour
 {
-public Rigidbody Rb;
-    public Animator animator;
+private Rigidbody Rb;
+    private Animator animator;
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        Rb= GetComponent<Rigidbody>();  
+    }
+   
     // Start is called before the first frame update
     void Update()
     {

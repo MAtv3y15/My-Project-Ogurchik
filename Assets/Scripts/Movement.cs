@@ -1,22 +1,47 @@
  using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public Vector3 Velocity ;
+    public GameObject Target;
+    Vector3 TargetPosition;
+    Vector3 Myposition;
+    private Vector3 Velocity ;
     public float Speed ; 
-    public Rigidbody rb ;
-     
+    private Rigidbody rb ;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     void Update()
     {
-        Velocity.z = Input.GetAxis("Vertical") * Speed;
-       Velocity.x = Input.GetAxis("Horizontal") *  Speed ;
-     Velocity.y = rb.velocity.y;
-        if (Input.GetButtonDown("Jump"))
+
+        TargetPosition = Target.transform.position;
+        Myposition = transform.position;
+        TargetPosition.y = Myposition.y;
+        float DistanceToTarget = (TargetPosition - Myposition).magnitude;
+        float MinDistance = 1f;
+        if(DistanceToTarget > MinDistance)
         {
-            Velocity.y = 2;
+           
+            
+            Vector3 direction = (TargetPosition - Myposition).normalized;
+            Velocity = direction * Speed;
+            Velocity.y = rb.velocity.y;
+            rb.velocity = Velocity;
+
+
+
+
+
+
+
+            transform.forward = direction;
         }
-        rb.velocity = Velocity;
+     
     }
 }
